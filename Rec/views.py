@@ -29,6 +29,7 @@ def index(request):
         else:
             messages.error(request,"Invalid username or password.")
     form = AuthenticationForm()
+    
     return render(request=request, template_name="Rec/dashboard.html", context={"login_form":form})
 
 
@@ -49,11 +50,10 @@ def login_view(request):
 
     return redirect("Rec:index")
 
-def logout_request(request):
-    logout(request)
+def logout_view(request):
+    auth_logout(request)
     messages.info(request, "Logged out successfully!")
     return redirect("Rec:index")
-
 
 def question_view(request):
     form2 = QuestionForm()

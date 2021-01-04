@@ -3,6 +3,7 @@
 
 {% block title %}Dashboard{% endblock %}
 
+
 {% block content %}
 
     {%comment%} Checks if use is logged in  {%endcomment%}
@@ -11,7 +12,7 @@
       
     {% else %}
       <p>You are not logged in</p>
-      <a href="{% url 'login' %}">login</a>
+      <a href="{% url 'Rec:login' %}">login</a>
     {% endif %}
 
 
