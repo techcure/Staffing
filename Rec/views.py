@@ -15,8 +15,12 @@ from django.contrib.auth.forms import AuthenticationForm
 
 def index(request):
     if request.method == "POST":
+        form2 = QuestionForm(request.POST)
+        if form2.is_valid():
+            form2.save()
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
+
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
@@ -29,8 +33,8 @@ def index(request):
         else:
             messages.error(request,"Invalid username or password.")
     form = AuthenticationForm()
-    
-    return render(request=request, template_name="Rec/dashboard.html", context={"login_form":form})
+
+    return render(request=request, template_name="Rec/dashboard.html", context={"login_form":form, "form2":form2})
 
 
 def register_request(request):
@@ -64,5 +68,6 @@ def question_view(request):
         if form2.is_valid():
            form2.save()
            messages.success(request, "QuestionForm Saved!" )
-           form2 = QuestionForm
-    return render (request=request, template_name="Rec/ques.html", context={"ques_form":form2})
+           # queryset = Question.objects.all()
+
+    return render (request=request, template_name="Rec/ques.html", context={"ques_form":"form2"})

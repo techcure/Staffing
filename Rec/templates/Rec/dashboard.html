@@ -2,6 +2,8 @@
 {% extends 'Rec/base.html' %}
 
 {% block title %}Dashboard{% endblock %}
+{% load crispy_forms_tags %}
+
 
 
 {% block content %}
@@ -16,6 +18,21 @@
     {% endif %}
 
 
+
+<div class="container py-5">
+  <h1>Feed Questions</h1>
+  <form method="POST">
+    {% csrf_token %}
+    
+    {{ form2|crispy }}
+
+
+
+ <button class="btn btn-primary" type="submit">Save</button>
+
+
+</form>
+</div>
 
 
 
