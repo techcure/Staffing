@@ -1,0 +1,57 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<form action="">
+    <h4 align="center">-----------_-_------------</h4>
+    {% csrf_token %}
+    <div class="row alert" >
+    <div class="col-md-12">
+<div class="wrapper"></div>
+<div class="vertical-line"></div>
+    <section class="widget">
+        <h4>All Questions<span class="fw-semi-bold"></span></h4>
+        
+        <div class="widget-controls">
+            <input id="myInput" type="text" placeholder="Search..">
+        <a href="#"><i class="glyphicon glyphicon-cog"></i></a>
+        <a data-widgster="close" href="" data-dismiss="alert">
+        <i class="glyphicon glyphicon-remove"></i></a>
+       </div>
+       </form> 
+
+ <div class="container-fluid">
+
+	{% for x in data %}
+
+    {{x.id}}
+    {{x.question}}
+    {{x.subj}}
+    {{x.answer}}
+
+    {% if x.easy == True%} 
+
+    {{x.easy}}
+    {%endif%}
+
+    {% if x.medium == True %}
+        
+    {{x.medium}}
+    
+    {%endif%}
+
+    {% if x.hard == True %}
+
+    {{x.hard}}
+
+    {%endif%}
+
+    {% endfor %}
+</div>
+
+{% endblock %}

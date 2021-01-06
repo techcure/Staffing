@@ -1,0 +1,30 @@
+
+{% extends "layouts/base.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+</body>
+{% block content %}
+<h2>New Questions</h2>
+    <div align="" class="container">
+<form action="#" method="POST" class="" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+        <button type="submit" class="save btn btn-default">Save</button>
+
+</form>
+    </div>
+
+<form name="form_post">
+{% csrf_token %}
+
+</form>
+{% endblock %}
+<body>
+</html>

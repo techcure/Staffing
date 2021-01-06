@@ -28,8 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
-LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGIN_URL = '../'
+LOGIN_REDIRECT_URL = '../'
 
 # Application definition
 
@@ -56,6 +56,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Staffing.urls'
+LOGIN_REDIRECT_URL = "home"   # Route defined in app/urls.py
+LOGOUT_REDIRECT_URL = "home"  # Route defined in app/urls.py
+TEMPLATE_DIR = os.path.join(BASE_DIR, "core/templates")  # ROOT dir for templates
 
 TEMPLATES = [
     {

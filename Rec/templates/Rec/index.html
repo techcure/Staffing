@@ -1,19 +1,61 @@
+{% extends "Rec/base.html" %}
 
-{% extends 'Rec/base.html' %}
+{% block title %} Dashboard {% endblock %} 
+ 
+{% block content %}
 
-{% block content %}      
+    <h2 class="page-title">Dashboard <small>Statistics and more</small></h2>
+{% if messages %}
+<ul class="messages1">
+  {% for message in messages %}
+ <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+</br>
 
-{% load crispy_forms_tags %}
+{% endblock content %}
 
-<!--Login--> 
-<div class="container py-5">
-  <h1>Login</h1>
-  <form method="POST">
-    {% csrf_token %}
-    {{ login_form|crispy }}
-    <button class="btn btn-primary" type="submit">Login</button>
-  </form>
-  <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
-</div>
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
 
-{% endblock %}
+    <!-- page specific scripts -->
+    <!-- page libs -->
+    <script src="/static/assets/lib/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="/static/assets/lib/jquery.sparkline/index.js"></script>
+
+    <script src="/static/assets/lib/backbone/backbone.js"></script>
+    <script src="/static/assets/lib/backbone.localStorage/build/backbone.localStorage.min.js"></script>
+
+    <script src="/static/assets/lib/d3/d3.min.js"></script>
+    <script src="/static/assets/lib/nvd3/build/nv.d3.min.js"></script>
+
+    <!-- page application js -->
+    <script src="/static/assets/js/index.js"></script>
+    <script src="/static/assets/js/chat.js"></script>
+
+    <!-- page template -->
+    <script type="text/template" id="message-template">
+        <div class="sender pull-left">
+            <div class="icon">
+                <img src="/static/assets/img/2.png" class="img-circle" alt="">
+            </div>
+            <div class="time">
+                just now
+            </div>
+        </div>
+        <div class="chat-message-body">
+            <span class="arrow"></span>
+            <div class="sender"><a href="#">Tikhon Laninga</a></div>
+            <div class="text">
+                <%- text %>
+            </div>
+        </div>
+    </script>
+
+    <script> 
+        function Previous() { 
+            window.history.back('index') 
+        } 
+    </script>
+{% endblock javascripts %}

@@ -13,11 +13,18 @@ class Stud(models.Model):
 
 
 class Question(models.Model):
-    Que = models.CharField(max_length=200)
-    Ans = models.TextField(max_length=200, null = True, blank = True)
-    simple = models.BooleanField(default=True)
+
+    SUB = (
+    ('Python','Python'),
+    ('JQUERY', 'jQuery'),
+    ('JavaScript','JavaScript'),
+)
+    question = models.CharField(max_length=200)
+    subj = models.CharField(max_length=10, choices=SUB, default='Python')
+    answer = models.TextField(max_length=200, null = True, blank = True)
+    easy = models.BooleanField(default=True)
+    medium = models.BooleanField(default=True)
     hard = models.BooleanField(default=True)
-    very_hard = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.Que
+        return self.question

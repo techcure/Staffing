@@ -1,73 +1,72 @@
 
 from django.shortcuts import  render, redirect
 from .forms import *
-from django.contrib.auth import login
-from django.contrib.auth import logout
-from django.contrib.auth import logout as auth_logout
-
 from django.contrib import messages 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.template import loader
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
+from django import template
+from django.shortcuts import render
 
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
-
+@login_required(login_url="/login/")
 def index(request):
-    if request.method == "POST":
-        form2 = QuestionForm(request.POST)
-        if form2.is_valid():
-            form2.save()
-        form = AuthenticationForm(request, data=request.POST)
+    return render(request, "Rec/index.html")
+
+@login_required(login_url="/login/")
+def pages(request):
+    context = {}
+
+    try:
+        load_template = request.path.split('/')[-1]
+        html_template = loader.get_template( load_template )
+        return HttpResponse(html_template.render(context, request))
+        
+    except template.TemplateDoesNotExist:
+
+        html_template = loader.get_template( 'error-404.html' )
+        return HttpResponse(html_template.render(context, request))
+
+    except:
+    
+        html_template = loader.get_template( 'error-500.html' )
+        return HttpResponse(html_template.render(context, request))
+
+
+
+@login_required
+
+def new_question(request):
+    if request.method == 'POST':
+        #import pdb; pdb.set_trace()
+        form = QueForm(request.POST, request.FILES)
+        #import pdb; pdb.set_trace()
         if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            # messages= "Saved"
+            messages.success(request, 'Your question has saved Successfully!.')
+        return render(request, 'Rec/index.html', {'form': form})
+    else:
+            form = QueForm()
+    # import pdb; pdb.set_trace()
+    queryset = Question.objects.all()
+    #my_total = Question.objects.count()
+    context = {'data':queryset, 'form':form}
+    return render(request, 'layouts/add-questions.html', context)
 
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
-                return redirect("Rec:index")
-            else:
-                messages.error(request,"Invalid username or password.")
-        else:
-            messages.error(request,"Invalid username or password.")
-    form = AuthenticationForm()
-
-    return render(request=request, template_name="Rec/dashboard.html", context={"login_form":form, "form2":form2})
-
-
-def register_request(request):
-    if request.method == "POST":
-        form = NewUserForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "Registration successful." )
-            return redirect("Rec:index")
-        messages.error(request, "Unsuccessful registration. Invalid information.")
-    form = NewUserForm
-    return render (request=request, template_name="Rec/register.html", context={"register_form":form})
-
-
-def login_view(request):
-
-    return redirect("Rec:index")
-
-def logout_view(request):
-    auth_logout(request)
-    messages.info(request, "Logged out successfully!")
-    return redirect("Rec:index")
+@login_required
 
 def question_view(request):
-    form2 = QuestionForm()
-
-    if request.method == "POST":
-        form2 = QuestionForm(request.POST)
-        
-        if form2.is_valid():
-           form2.save()
-           messages.success(request, "QuestionForm Saved!" )
-           # queryset = Question.objects.all()
-
-    return render (request=request, template_name="Rec/ques.html", context={"ques_form":"form2"})
+    queryset = Question.objects.filter(id = 7)
+    context = {'data':queryset}
+    #context["data"] = queryset
+    # import pdb;pdb.set_trace()
+    fom = QueForm()
+    return render(request, "layouts/view-question.html", context)
